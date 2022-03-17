@@ -62,3 +62,20 @@ it('Enums', async () => {
     'enums',
   );
 });
+
+it('Enums (dts)', async () => {
+  await t(
+    {
+      intValue: -12,
+      strValue: 'haha"\'',
+      nullValue: null,
+      arrayValue: [32, 'wow', null],
+      __enums: {
+        color: ['red', 'blue'],
+        color2: ['red', 'blue'],
+      },
+    },
+    { dts: true },
+    'enums-dts',
+  );
+});

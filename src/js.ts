@@ -32,9 +32,19 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
       }
 
       code += '\n';
-      code += `export enum ${cm.capitalizeFirstLetter(enumName)} {\n`;
-      code += `  ${values.map((v) => `${v},`).join(' ')}\n`;
-      code += '}\n';
+      const typeName = cm.capitalizeFirstLetter(enumName);
+      if (opt?.dts) {
+        code += `export declare enum ${typeName} {\n`;
+        code += `  ${values.map((v, i) => `${v} = ${i}`).join(', ')}\n`;
+        code += '}\n';
+      } else {
+        code += `export var ${typeName};\n`;
+        code += `(function (${typeName}) {\n`;
+        for (const v of values) {
+          code += `  ${typeName}[${typeName}["${v}"] = 0] = "${v}";\n`;
+        }
+        code += `})(${typeName} || (${typeName} = {}));\n`;
+      }
     }
   }
   return code;
