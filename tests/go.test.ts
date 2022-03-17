@@ -4,10 +4,11 @@ import * as nodePath from 'path';
 import { fileURLToPath } from 'url';
 import { go } from '../dist/main.js';
 
-const __dirname = nodePath.dirname(fileURLToPath(import.meta.url));
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const dirname = nodePath.dirname(fileURLToPath(import.meta.url));
 
 async function t(obj: Record<string, unknown>, args: go.InputArgs, file: string) {
-  const expectedFile = nodePath.join(__dirname, '../tests/data/go', `${file}.go`);
+  const expectedFile = nodePath.join(dirname, '../tests/data/go', `${file}.go`);
   const expected = await fsPromises.readFile(expectedFile, 'utf8');
   assert.strictEqual(go.convert(obj, args), expected);
 }

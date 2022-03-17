@@ -48,10 +48,8 @@ export function goConstGenCore(
 
   let maxPropLen = 0;
   let maxTypeLen = 0;
-  const sortedProps: PropData[] = [];
-  for (const prop of Object.keys(obj).sort()) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const value = (obj as any)[prop];
+  const props: PropData[] = [];
+  for (const [prop, value] of Object.entries(obj)) {
     const propData: PropData = {
       name: prop,
       namePascalCase: capitalizeFirstLetter(prop),
@@ -62,10 +60,10 @@ export function goConstGenCore(
       maxPropLen = Math.max(maxPropLen, prop.length);
       maxTypeLen = Math.max(maxTypeLen, propData.type.length);
     }
-    sortedProps.push(propData);
+    props.push(propData);
   }
 
-  for (const propData of sortedProps) {
+  for (const propData of props) {
     code += `\t${propData.namePascalCase.padEnd(maxPropLen, ' ')}`;
     if (args.hideJSONTags) {
       code += ` ${propData.type}\n`;
@@ -103,7 +101,7 @@ func ${parseFuncName}(file string) (*${args.typeName}, error) {
     code += 'func init() {\n';
     code += `\t${args.variableName} = &${args.typeName}{\n`;
 
-    for (const propData of sortedProps) {
+    for (const propData of props) {
       code += `\t\t${(propData.namePascalCase + ':').padEnd(maxPropLen + 1, ' ')} ${JSON.stringify(
         propData.value,
       )},\n`;
@@ -113,7 +111,7 @@ func ${parseFuncName}(file string) (*${args.typeName}, error) {
     code += '}\n';
   }
 
-  return [code, sortedProps];
+  return [code, props];
 }
 
 export function convert(obj: Record<string, unknown>, args: InputArgs): string {
