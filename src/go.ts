@@ -1,120 +1,44 @@
+import * as cm from './common.js';
+
 export interface InputArgs {
   packageName: string;
   typeName: string;
-  parseFunc?: boolean;
   header?: string;
-  variableName?: string;
-  disablePropertyFormatting?: boolean;
-  hideJSONTags?: boolean;
 }
 
-export interface PropData {
-  name: string;
-  namePascalCase: string;
-  type: string;
-  value: unknown;
-}
-
-function capitalizeFirstLetter(s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-function goType(value: unknown): string {
-  if (typeof value === 'string') {
-    return 'string';
-  }
-  if (typeof value === 'number') {
-    return Number.isInteger(value) ? 'int' : 'float64';
-  }
-  throw new Error(`Unsupported type of value ${value}`);
-}
-
-export function goConstGenCore(
-  obj: Record<string, unknown>,
-  args: InputArgs,
-): [string, PropData[]] {
+export function convert(obj: Record<string, unknown>, args: InputArgs) {
   let code = args.header ? `${args.header}\n` : '';
   code += `package ${args.packageName}\n\n`;
 
-  if (args.parseFunc === true) {
-    code += `import (
-\t"encoding/json"
-\t"io/ioutil"
-)\n\n`;
-  }
-
-  code += `// ${args.typeName} ...\n`;
-  code += `type ${args.typeName} struct {\n`;
-
-  let maxPropLen = 0;
-  let maxTypeLen = 0;
-  const props: PropData[] = [];
-  for (const [prop, value] of Object.entries(obj)) {
-    const propData: PropData = {
-      name: prop,
-      namePascalCase: capitalizeFirstLetter(prop),
-      type: goType(value),
-      value,
-    };
-    if (!args.disablePropertyFormatting) {
-      maxPropLen = Math.max(maxPropLen, prop.length);
-      maxTypeLen = Math.max(maxTypeLen, propData.type.length);
+  for (const [key, val] of Object.entries(obj)) {
+    if (cm.ignoredProps.has(key)) {
+      continue;
     }
-    props.push(propData);
+    code += `const ${key}${cm.capitalizeFirstLetter(key)} = ${val}\n`;
   }
 
-  for (const propData of props) {
-    code += `\t${propData.namePascalCase.padEnd(maxPropLen, ' ')}`;
-    if (args.hideJSONTags) {
-      code += ` ${propData.type}\n`;
-    } else {
-      code += ` ${propData.type.padEnd(maxTypeLen, ' ')} \`json:"${propData.name}"\`\n`;
+  // Enums
+  const enums = obj[cm.enumsKey] as Record<string, unknown> | undefined;
+  if (enums) {
+    for (const [enumName, values] of Object.entries(enums)) {
+      if (!Array.isArray(values)) {
+        throw new Error(`Enum values must be arrays, got ${JSON.stringify(values)}`);
+      }
+
+      const typeName = cm.capitalizeFirstLetter(enumName);
+      code += '\n';
+      code += `type ${typeName} int\n\n`;
+      code += 'const (\n';
+      code += `${values
+        .map(
+          (v, i) =>
+            `\t${typeName}${cm.capitalizeFirstLetter(`${v}`)}${
+              i === 0 ? ` ${typeName} = iota` : ''
+            }`,
+        )
+        .join('\n')}\n`;
+      code += ')\n';
     }
   }
-
-  code += '}\n';
-
-  if (args.parseFunc === true) {
-    code += '\n';
-    const parseFuncName = `Parse${args.typeName}`;
-    code += `// ${parseFuncName} loads a ${args.typeName} from a JSON file.
-func ${parseFuncName}(file string) (*${args.typeName}, error) {
-\tbytes, err := ioutil.ReadFile(file)
-\tif err != nil {
-\t\treturn nil, err
-\t}
-
-\tvar data ${args.typeName}
-\terr = json.Unmarshal(bytes, &data)
-\tif err != nil {
-\t\treturn nil, err
-\t}
-\treturn &data, nil
-}
-`;
-  }
-
-  if (args.variableName) {
-    code += '\n';
-    code += `// ${args.variableName} ...\n`;
-    code += `var ${args.variableName} *${args.typeName}\n\n`;
-    code += 'func init() {\n';
-    code += `\t${args.variableName} = &${args.typeName}{\n`;
-
-    for (const propData of props) {
-      code += `\t\t${(propData.namePascalCase + ':').padEnd(maxPropLen + 1, ' ')} ${JSON.stringify(
-        propData.value,
-      )},\n`;
-    }
-
-    code += '\t}\n';
-    code += '}\n';
-  }
-
-  return [code, props];
-}
-
-export function convert(obj: Record<string, unknown>, args: InputArgs): string {
-  const [code] = goConstGenCore(obj, args);
   return code;
 }

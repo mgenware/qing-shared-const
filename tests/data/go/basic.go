@@ -1,9 +1,6 @@
 package test
 
-// Test ...
-type Test struct {
-	Hello      string  `json:"hello"`
-	World      string  `json:"world"`
-	IntProp    int     `json:"intProp"`
-	DoubleProp float64 `json:"doubleProp"`
-}
+const helloHello = 1
+const worldWorld = 2
+const intPropIntProp = 123
+const doublePropDoubleProp = 12.3

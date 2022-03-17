@@ -16,7 +16,7 @@ async function t(obj: Record<string, unknown>, opt: js.Options | undefined, file
   assert.strictEqual(js.convert(obj, opt), expected);
 }
 
-it('basic', async () => {
+it('Basic', async () => {
   await t(
     { intValue: -12, strValue: 'haha"\'', nullValue: null, arrayValue: [32, 'wow', null] },
     undefined,
@@ -43,5 +43,22 @@ it('Custom header', async () => {
     { intValue: -12, strValue: 'haha"\'', nullValue: null, arrayValue: [32, 'wow', null] },
     { header: '__HEAD__' },
     'header',
+  );
+});
+
+it('Enums', async () => {
+  await t(
+    {
+      intValue: -12,
+      strValue: 'haha"\'',
+      nullValue: null,
+      arrayValue: [32, 'wow', null],
+      __enums: {
+        color: ['red', 'blue'],
+        color2: ['red', 'blue'],
+      },
+    },
+    undefined,
+    'enums',
   );
 });

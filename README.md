@@ -25,6 +25,10 @@ go.convert(
     world: '2',
     intProp: 123,
     doubleProp: 12.3,
+    __enums: {
+      color: ['red', 'blue'],
+      color2: ['red', 'blue'],
+    },
   },
   { packageName: 'test', typeName: 'Test' },
 );
@@ -35,63 +39,24 @@ Output:
 ```go
 package test
 
-// Test ...
-type Test struct {
-	DoubleProp float64 `json:"doubleProp"`
-	Hello      string  `json:"hello"`
-	IntProp    int     `json:"intProp"`
-	World      string  `json:"world"`
-}
-```
+const helloHello = 1
+const worldWorld = 2
+const intPropIntProp = 123
+const doublePropDoubleProp = 12.3
 
-With a helper func to parse data:
+type Color int
 
-```ts
-import { go } from 'qing-shared-const';
-
-go.convert(
-  {
-    hello: '1',
-    world: '2',
-    intProp: 123,
-    doubleProp: 12.3,
-  },
-  { packageName: 'test', typeName: 'Test', parseFunc: true },
-);
-```
-
-Output:
-
-```go
-package test
-
-import (
-	"encoding/json"
-	"io/ioutil"
+const (
+	ColorRed Color = iota
+	ColorBlue
 )
 
-// Test ...
-type Test struct {
-	DoubleProp float64 `json:"doubleProp"`
-	Hello      string  `json:"hello"`
-	IntProp    int     `json:"intProp"`
-	World      string  `json:"world"`
-}
+type Color2 int
 
-// ParseTest loads a Test from a JSON file.
-func ParseTest(file string) (*Test, error) {
-	bytes, err := ioutil.ReadFile(file)
-	if err != nil {
-		return nil, err
-	}
-
-	var data Test
-	err = json.Unmarshal(bytes, &data)
-	if err != nil {
-		return nil, err
-	}
-	return &data, nil
-}
+const (
+	Color2Red Color2 = iota
+	Color2Blue
+)
 ```
 
 ## JavaScript

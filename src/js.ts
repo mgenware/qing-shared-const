@@ -1,3 +1,5 @@
+import * as cm from './common.js';
+
 export interface Options {
   // TypeScript definition mode.
   dts?: boolean;
@@ -13,9 +15,27 @@ function getTail(val: unknown, dts: boolean | undefined) {
 }
 
 export function convert(obj: Record<string, unknown>, opt?: Options): string {
-  let result = opt?.header ? `${opt.header}\n` : '';
+  let code = opt?.header ? `${opt.header}\n` : '';
   for (const [key, val] of Object.entries(obj)) {
-    result += `export${opt?.dts ? ' declare' : ''} const ${key}${getTail(val, opt?.dts)};\n`;
+    if (cm.ignoredProps.has(key)) {
+      continue;
+    }
+    code += `export${opt?.dts ? ' declare' : ''} const ${key}${getTail(val, opt?.dts)};\n`;
   }
-  return result;
+
+  // Enums
+  const enums = obj[cm.enumsKey] as Record<string, unknown> | undefined;
+  if (enums) {
+    for (const [enumName, values] of Object.entries(enums)) {
+      if (!Array.isArray(values)) {
+        throw new Error(`Enum values must be arrays, got ${JSON.stringify(values)}`);
+      }
+
+      code += '\n';
+      code += `export enum ${cm.capitalizeFirstLetter(enumName)} {\n`;
+      code += `  ${values.map((v) => `${v},`).join(' ')}\n`;
+      code += '}\n';
+    }
+  }
+  return code;
 }
