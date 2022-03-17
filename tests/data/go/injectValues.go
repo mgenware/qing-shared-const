@@ -7,10 +7,10 @@ import (
 
 // Test ...
 type Test struct {
-	DoubleProp float64 `json:"doubleProp"`
 	Hello      string  `json:"hello"`
-	IntProp    int     `json:"intProp"`
 	World      string  `json:"world"`
+	IntProp    int     `json:"intProp"`
+	DoubleProp float64 `json:"doubleProp"`
 }
 
 // ParseTest loads a Test from a JSON file.
@@ -33,9 +33,9 @@ var Var *Test
 
 func init() {
 	Var = &Test{
-		DoubleProp: 12.3,
 		Hello:      "1",
-		IntProp:    123,
 		World:      "2",
+		IntProp:    123,
+		DoubleProp: 12.3,
 	}
 }
