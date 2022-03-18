@@ -6,6 +6,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
+  ignorePatterns: ['tests/data'],
   rules: {
     'prefer-template': 'off',
   },
