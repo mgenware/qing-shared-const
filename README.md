@@ -64,7 +64,16 @@ const (
 ```ts
 import { js } from 'qing-shared-const';
 
-js.convert({ intValue: -12, strValue: 'haha"\'', nullValue: null, arrayValue: [32, 'wow', null] });
+js.convert({
+  intValue: -12,
+  strValue: 'haha"\'',
+  nullValue: null,
+  arrayValue: [32, 'wow', null],
+  __enums: {
+    color: ['red', 'blue'],
+    color2: ['red', 'blue'],
+  },
+});
 ```
 
 Output:
@@ -74,6 +83,18 @@ export const intValue = -12;
 export const strValue = 'haha"\'';
 export const nullValue = null;
 export const arrayValue = [32, 'wow', null];
+
+export var Color;
+(function (Color) {
+  Color[(Color['red'] = 0)] = 'red';
+  Color[(Color['blue'] = 0)] = 'blue';
+})(Color || (Color = {}));
+
+export var Color2;
+(function (Color2) {
+  Color2[(Color2['red'] = 0)] = 'red';
+  Color2[(Color2['blue'] = 0)] = 'blue';
+})(Color2 || (Color2 = {}));
 ```
 
 TypeScript definition is also supported:
@@ -82,7 +103,16 @@ TypeScript definition is also supported:
 import { js } from 'qing-shared-const';
 
 js.convert(
-  { intValue: -12, strValue: 'haha"\'', nullValue: null, arrayValue: [32, 'wow', null] },
+  {
+    intValue: -12,
+    strValue: 'haha"\'',
+    nullValue: null,
+    arrayValue: [32, 'wow', null],
+    __enums: {
+      color: ['red', 'blue'],
+      color2: ['red', 'blue'],
+    },
+  },
   { dts: true },
 );
 ```
@@ -93,6 +123,15 @@ Output:
 export declare const intValue = -12;
 export declare const strValue = 'haha"\'';
 export declare const nullValue = null;
-export declare const intArr: number[];
-export declare const strArr: string[];
+export declare const arrayValue: number[];
+
+export declare enum Color {
+  red = 0,
+  blue = 1,
+}
+
+export declare enum Color2 {
+  red = 0,
+  blue = 1,
+}
 ```
