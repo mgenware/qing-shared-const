@@ -1,6 +1,6 @@
 {
   "name": "qing-shared-const",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Generate JavaScript/Go constants from JSON",
   "type": "module",
   "exports": "./dist/main.js",
