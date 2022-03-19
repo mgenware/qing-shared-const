@@ -40,9 +40,10 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
       } else {
         code += `export var ${typeName};\n`;
         code += `(function (${typeName}) {\n`;
-        for (const v of values) {
-          code += `  ${typeName}[${typeName}["${v}"] = 0] = "${v}";\n`;
-        }
+        // eslint-disable-next-line @typescript-eslint/no-loop-func
+        values.forEach((v, i) => {
+          code += `  ${typeName}[${typeName}["${v}"] = ${i + 1}] = "${v}";\n`;
+        });
         code += `})(${typeName} || (${typeName} = {}));\n`;
       }
     }

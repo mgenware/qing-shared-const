@@ -33,7 +33,7 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
         .map(
           (v, i) =>
             `\t${typeName}${cm.capitalizeFirstLetter(`${v}`)}${
-              i === 0 ? ` ${typeName} = iota` : ''
+              i === 0 ? ` ${typeName} = iota + 1` : ''
             }`,
         )
         .join('\n')}\n`;
