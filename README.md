@@ -21,8 +21,7 @@ import { go } from 'qing-shared-const';
 
 go.convert(
   {
-    hello: '1',
-    world: '2',
+    str: 'hello world',
     intProp: 123,
     doubleProp: 12.3,
     __enums: {
@@ -39,8 +38,7 @@ Output:
 ```go
 package test
 
-const helloHello = 1
-const worldWorld = 2
+const strStr = "hello world"
 const intPropIntProp = 123
 const doublePropDoubleProp = 12.3
 

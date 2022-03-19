@@ -41,8 +41,7 @@ it('header', async () => {
 it('Enums', async () => {
   await t(
     {
-      hello: '1',
-      world: '2',
+      str: 'hello world',
       intProp: 123,
       doubleProp: 12.3,
       __enums: {
