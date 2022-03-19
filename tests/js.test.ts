@@ -16,25 +16,19 @@ async function t(obj: Record<string, unknown>, opt: js.Options | undefined, file
   assert.strictEqual(js.convert(obj, opt), expected);
 }
 
-it('Basic', async () => {
-  await t(
-    { intValue: -12, strValue: 'haha"\'', nullValue: null, arrayValue: [32, 'wow', null] },
-    undefined,
-    'basic',
-  );
+it('Types', async () => {
+  await t({ intValue: -12, strValue: 'haha"\'', nullValue: null }, undefined, 'types');
 });
 
-it('Typescript definition', async () => {
+it('Types (dts)', async () => {
   await t(
     {
       intValue: -12,
       strValue: 'haha"\'',
       nullValue: null,
-      intArr: [1, 2],
-      strArr: ['a', 'b'],
     },
     { dts: true },
-    'dts',
+    'types',
   );
 });
 

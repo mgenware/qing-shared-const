@@ -14,7 +14,7 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
     if (cm.ignoredProps.has(key)) {
       continue;
     }
-    code += `const ${key}${cm.capitalizeFirstLetter(key)} = ${val}\n`;
+    code += `const ${key}${cm.capitalizeFirstLetter(key)} = ${JSON.stringify(val)}\n`;
   }
 
   // Enums

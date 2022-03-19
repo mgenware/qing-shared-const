@@ -13,16 +13,11 @@ async function t(obj: Record<string, unknown>, args: go.InputArgs, file: string)
   assert.strictEqual(go.convert(obj, args), expected);
 }
 
-it('Basic', async () => {
+it('Types', async () => {
   await t(
-    {
-      hello: '1',
-      world: '2',
-      intProp: 123,
-      doubleProp: 12.3,
-    },
+    { intValue: -12, strValue: 'haha"\'' },
     { packageName: 'test', typeName: 'Test' },
-    'basic',
+    'types',
   );
 });
 
