@@ -38,9 +38,9 @@ Output:
 ```go
 package test
 
-const strStr = "hello world"
-const intPropIntProp = 123
-const doublePropDoubleProp = 12.3
+const Str = "hello world"
+const IntProp = 123
+const DoubleProp = 12.3
 
 type Color int
 

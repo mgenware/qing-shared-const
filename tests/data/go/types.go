@@ -1,4 +1,4 @@
 package test
 
-const intValueIntValue = -12
-const strValueStrValue = "haha\"'"
+const IntValue = -12
+const StrValue = "haha\"'"

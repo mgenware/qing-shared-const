@@ -2,7 +2,7 @@
 
 package test
 
-const helloHello = "1"
-const worldWorld = "2"
-const intPropIntProp = 123
-const doublePropDoubleProp = 12.3
+const Hello = "1"
+const World = "2"
+const IntProp = 123
+const DoubleProp = 12.3
