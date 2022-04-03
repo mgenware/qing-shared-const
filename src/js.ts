@@ -27,23 +27,35 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
   const enums = obj[cm.enumsKey] as Record<string, unknown> | undefined;
   if (enums) {
     for (const [enumName, values] of Object.entries(enums)) {
-      if (!Array.isArray(values)) {
-        throw new Error(`Enum values must be arrays, got ${JSON.stringify(values)}`);
+      if (code.length) {
+        code += '\n';
       }
-
-      code += '\n';
       const typeName = cm.capitalizeFirstLetter(enumName);
+
       if (opt?.dts) {
         code += `export declare enum ${typeName} {\n`;
-        code += `  ${values.map((v, i) => `${v} = ${i}`).join(', ')}\n`;
+        if (Array.isArray(values)) {
+          code += `  ${values.map((v, i) => `${v} = ${i}`).join(', ')}\n`;
+        } else {
+          code += `  ${Object.entries(values as Record<string, undefined>)
+            .map(([k, v]) => `${k} = ${JSON.stringify(v)}`)
+            .join(', ')}\n`;
+        }
         code += '}\n';
       } else {
         code += `export var ${typeName};\n`;
         code += `(function (${typeName}) {\n`;
-        // eslint-disable-next-line @typescript-eslint/no-loop-func
-        values.forEach((v, i) => {
-          code += `  ${typeName}[${typeName}["${v}"] = ${i + 1}] = "${v}";\n`;
-        });
+        if (Array.isArray(values)) {
+          // eslint-disable-next-line @typescript-eslint/no-loop-func
+          values.forEach((v, i) => {
+            code += `  ${typeName}[${typeName}["${v}"] = ${i + 1}] = "${v}";\n`;
+          });
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-loop-func
+          Object.entries(values as Record<string, undefined>).forEach(([k, v]) => {
+            code += `  ${typeName}["${k}"] = ${JSON.stringify(v)};\n`;
+          });
+        }
         code += `})(${typeName} || (${typeName} = {}));\n`;
       }
     }

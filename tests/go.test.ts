@@ -53,3 +53,19 @@ it('Enums', async () => {
     'enums',
   );
 });
+
+it('Enums (string)', async () => {
+  await t(
+    {
+      __enums: {
+        color: ['red', 'blue'],
+        color2: {
+          r: 'red',
+          b: 'blue',
+        },
+      },
+    },
+    { packageName: 'test', typeName: 'Test' },
+    'enumsStr',
+  );
+});

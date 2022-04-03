@@ -73,3 +73,35 @@ it('Enums (dts)', async () => {
     'enums-dts',
   );
 });
+
+it('Enums (string)', async () => {
+  await t(
+    {
+      __enums: {
+        color: ['red', 'blue'],
+        color2: {
+          r: 'red',
+          b: 'blue',
+        },
+      },
+    },
+    undefined,
+    'enumsStr',
+  );
+});
+
+it('Enums (dts) (string)', async () => {
+  await t(
+    {
+      __enums: {
+        color: ['red', 'blue'],
+        color2: {
+          r: 'red',
+          b: 'blue',
+        },
+      },
+    },
+    { dts: true },
+    'enumsStr-dts',
+  );
+});

@@ -6,6 +6,11 @@ export interface InputArgs {
   header?: string;
 }
 
+function endsWithTwoNewlines(s: string) {
+  const c = s.length;
+  return s.charAt(c - 1) === '\n' && s.charAt(c - 2) === '\n';
+}
+
 export function convert(obj: Record<string, unknown>, args: InputArgs) {
   let code = args.header ? `${args.header}\n` : '';
   code += `package ${args.packageName}\n\n`;
@@ -21,22 +26,31 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
   const enums = obj[cm.enumsKey] as Record<string, unknown> | undefined;
   if (enums) {
     for (const [enumName, values] of Object.entries(enums)) {
-      if (!Array.isArray(values)) {
-        throw new Error(`Enum values must be arrays, got ${JSON.stringify(values)}`);
-      }
-
       const typeName = cm.capitalizeFirstLetter(enumName);
-      code += '\n';
-      code += `type ${typeName} int\n\n`;
+      if (!endsWithTwoNewlines(code)) {
+        code += '\n';
+      }
+      code += `type ${typeName} ${Array.isArray(values) ? 'int' : 'string'}\n\n`;
       code += 'const (\n';
-      code += `${values
-        .map(
-          (v, i) =>
-            `\t${typeName}${cm.capitalizeFirstLetter(`${v}`)}${
-              i === 0 ? ` ${typeName} = iota + 1` : ''
-            }`,
-        )
-        .join('\n')}\n`;
+      if (Array.isArray(values)) {
+        code += `${values
+          .map(
+            (v, i) =>
+              `\t${typeName}${cm.capitalizeFirstLetter(`${v}`)}${
+                i === 0 ? ` ${typeName} = iota + 1` : ''
+              }`,
+          )
+          .join('\n')}\n`;
+      } else {
+        code += `${Object.entries(values as Record<string, unknown>)
+          .map(
+            ([k, v], i) =>
+              `\t${typeName}${cm.capitalizeFirstLetter(`${k}`)}${
+                i === 0 ? ` ${typeName}` : ''
+              } = ${JSON.stringify(v)}`,
+          )
+          .join('\n')}\n`;
+      }
       code += ')\n';
     }
   }
