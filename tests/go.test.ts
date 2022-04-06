@@ -47,6 +47,10 @@ it('Enums', async () => {
       __enums: {
         color: ['red', 'blue'],
         color2: ['red', 'blue'],
+        color3: {
+          r: 4,
+          b: -2,
+        },
       },
     },
     { packageName: 'test', typeName: 'Test' },

@@ -30,9 +30,16 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
       if (!endsWithTwoNewlines(code)) {
         code += '\n';
       }
-      code += `type ${typeName} ${Array.isArray(values) ? 'int' : 'string'}\n\n`;
+
+      const isArray = Array.isArray(values);
+      let stringType = false;
+      if (!isArray && typeof Object.values(values as Record<string, unknown>)[0] === 'string') {
+        stringType = true;
+      }
+
+      code += `type ${typeName} ${stringType ? 'string' : 'int'}\n\n`;
       code += 'const (\n';
-      if (Array.isArray(values)) {
+      if (isArray) {
         code += `${values
           .map(
             (v, i) =>
