@@ -1,5 +1,5 @@
 export declare enum Color {
-  red = 0, blue = 1
+  red = 1, blue = 2
 }
 
 export declare enum Color2 {

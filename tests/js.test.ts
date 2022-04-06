@@ -57,6 +57,23 @@ it('Enums', async () => {
   );
 });
 
+it('Enums (flat)', async () => {
+  await t(
+    {
+      intValue: -12,
+      strValue: 'haha"\'',
+      nullValue: null,
+      arrayValue: [32, 'wow', null],
+      __enums: {
+        color: ['red', 'blue'],
+        color2: ['red', 'blue'],
+      },
+    },
+    { flattenEnums: true },
+    'enumsFlat',
+  );
+});
+
 it('Enums (dts)', async () => {
   await t(
     {
@@ -71,6 +88,23 @@ it('Enums (dts)', async () => {
     },
     { dts: true },
     'enums-dts',
+  );
+});
+
+it('Enums (dts) (flat)', async () => {
+  await t(
+    {
+      intValue: -12,
+      strValue: 'haha"\'',
+      nullValue: null,
+      arrayValue: [32, 'wow', null],
+      __enums: {
+        color: ['red', 'blue'],
+        color2: ['red', 'blue'],
+      },
+    },
+    { dts: true, flattenEnums: true },
+    'enums-dtsFlat',
   );
 });
 

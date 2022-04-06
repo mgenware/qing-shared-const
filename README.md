@@ -124,12 +124,12 @@ export declare const nullValue = null;
 export declare const arrayValue: number[];
 
 export declare enum Color {
-  red = 0,
-  blue = 1,
+  red = 1,
+  blue = 2,
 }
 
 export declare enum Color2 {
-  red = 0,
-  blue = 1,
+  red = 1,
+  blue = 2,
 }
 ```
