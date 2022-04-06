@@ -124,6 +124,22 @@ it('Enums (string)', async () => {
   );
 });
 
+it('Enums (string) (flat)', async () => {
+  await t(
+    {
+      __enums: {
+        color: ['red', 'blue'],
+        color2: {
+          r: 'red',
+          b: 'blue',
+        },
+      },
+    },
+    { flattenEnums: true },
+    'enumsStrFlat',
+  );
+});
+
 it('Enums (dts) (string)', async () => {
   await t(
     {
@@ -137,5 +153,21 @@ it('Enums (dts) (string)', async () => {
     },
     { dts: true },
     'enumsStr-dts',
+  );
+});
+
+it('Enums (dts) (string) (flat)', async () => {
+  await t(
+    {
+      __enums: {
+        color: ['red', 'blue'],
+        color2: {
+          r: 'red',
+          b: 'blue',
+        },
+      },
+    },
+    { dts: true, flattenEnums: true },
+    'enumsStrFlat-dts',
   );
 });
