@@ -48,8 +48,8 @@ it('Enums', async () => {
       nullValue: null,
       arrayValue: [32, 'wow', null],
       __enums: {
-        color: ['red', 'blue'],
-        color2: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
+        color2: { values: ['red', 'blue'] },
       },
     },
     undefined,
@@ -65,8 +65,8 @@ it('Enums (flat)', async () => {
       nullValue: null,
       arrayValue: [32, 'wow', null],
       __enums: {
-        color: ['red', 'blue'],
-        color2: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
+        color2: { values: ['red', 'blue'] },
       },
     },
     { flattenEnums: true },
@@ -82,8 +82,8 @@ it('Enums (dts)', async () => {
       nullValue: null,
       arrayValue: [32, 'wow', null],
       __enums: {
-        color: ['red', 'blue'],
-        color2: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
+        color2: { values: ['red', 'blue'] },
       },
     },
     { dts: true },
@@ -99,8 +99,8 @@ it('Enums (dts) (flat)', async () => {
       nullValue: null,
       arrayValue: [32, 'wow', null],
       __enums: {
-        color: ['red', 'blue'],
-        color2: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
+        color2: { values: ['red', 'blue'] },
       },
     },
     { dts: true, flattenEnums: true },
@@ -112,10 +112,12 @@ it('Enums (string)', async () => {
   await t(
     {
       __enums: {
-        color: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
         color2: {
-          r: 'red',
-          b: 'blue',
+          values: {
+            r: 'red',
+            b: 'blue',
+          },
         },
       },
     },
@@ -128,10 +130,12 @@ it('Enums (string) (flat)', async () => {
   await t(
     {
       __enums: {
-        color: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
         color2: {
-          r: 'red',
-          b: 'blue',
+          values: {
+            r: 'red',
+            b: 'blue',
+          },
         },
       },
     },
@@ -144,10 +148,12 @@ it('Enums (dts) (string)', async () => {
   await t(
     {
       __enums: {
-        color: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
         color2: {
-          r: 'red',
-          b: 'blue',
+          values: {
+            r: 'red',
+            b: 'blue',
+          },
         },
       },
     },
@@ -160,10 +166,12 @@ it('Enums (dts) (string) (flat)', async () => {
   await t(
     {
       __enums: {
-        color: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
         color2: {
-          r: 'red',
-          b: 'blue',
+          values: {
+            r: 'red',
+            b: 'blue',
+          },
         },
       },
     },

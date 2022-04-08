@@ -31,7 +31,9 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
   // Enums
   const enums = obj[cm.enumsKey] as Record<string, unknown> | undefined;
   if (enums) {
-    for (const [enumName, values] of Object.entries(enums)) {
+    for (const [enumName, enumDefRaw] of Object.entries(enums)) {
+      const enumDef = enumDefRaw as cm.EnumDef;
+      const { values } = enumDef;
       if (code.length) {
         code += '\n';
       }

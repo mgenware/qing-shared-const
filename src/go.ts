@@ -25,7 +25,9 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
   // Enums
   const enums = obj[cm.enumsKey] as Record<string, unknown> | undefined;
   if (enums) {
-    for (const [enumName, values] of Object.entries(enums)) {
+    for (const [enumName, enumDefRaw] of Object.entries(enums)) {
+      const enumDef = enumDefRaw as cm.EnumDef;
+      const { values } = enumDef;
       const typeName = cm.capitalizeFirstLetter(enumName);
       if (!endsWithTwoNewlines(code)) {
         code += '\n';
@@ -33,7 +35,7 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
 
       const isArray = Array.isArray(values);
       let stringType = false;
-      if (!isArray && typeof Object.values(values as Record<string, unknown>)[0] === 'string') {
+      if (!isArray && typeof Object.values(values)[0] === 'string') {
         stringType = true;
       }
 
@@ -49,7 +51,7 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
           )
           .join('\n')}\n`;
       } else {
-        code += `${Object.entries(values as Record<string, unknown>)
+        code += `${Object.entries(values)
           .map(
             ([k, v], i) =>
               `\t${typeName}${cm.capitalizeFirstLetter(`${k}`)}${

@@ -45,11 +45,13 @@ it('Enums', async () => {
       intProp: 123,
       doubleProp: 12.3,
       __enums: {
-        color: ['red', 'blue'],
-        color2: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
+        color2: { values: ['red', 'blue'] },
         color3: {
-          r: 4,
-          b: -2,
+          values: {
+            r: 4,
+            b: -2,
+          },
         },
       },
     },
@@ -62,10 +64,12 @@ it('Enums (string)', async () => {
   await t(
     {
       __enums: {
-        color: ['red', 'blue'],
+        color: { values: ['red', 'blue'] },
         color2: {
-          r: 'red',
-          b: 'blue',
+          values: {
+            r: 'red',
+            b: 'blue',
+          },
         },
       },
     },

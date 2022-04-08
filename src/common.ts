@@ -4,3 +4,7 @@ export const ignoredProps = new Set<string>([enumsKey]);
 export function capitalizeFirstLetter(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+
+export interface EnumDef {
+  values: Record<string, unknown>;
+}

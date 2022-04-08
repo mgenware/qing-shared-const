@@ -25,8 +25,8 @@ go.convert(
     intProp: 123,
     doubleProp: 12.3,
     __enums: {
-      color: ['red', 'blue'],
-      color2: ['red', 'blue'],
+      color: { values: ['red', 'blue'] },
+      color2: { values: ['red', 'blue'] },
     },
   },
   { packageName: 'test', typeName: 'Test' },
@@ -68,8 +68,8 @@ js.convert({
   nullValue: null,
   arrayValue: [32, 'wow', null],
   __enums: {
-    color: ['red', 'blue'],
-    color2: ['red', 'blue'],
+    color: { values: ['red', 'blue'] },
+    color2: { values: ['red', 'blue'] },
   },
 });
 ```
@@ -107,8 +107,8 @@ js.convert(
     nullValue: null,
     arrayValue: [32, 'wow', null],
     __enums: {
-      color: ['red', 'blue'],
-      color2: ['red', 'blue'],
+      color: { values: ['red', 'blue'] },
+      color2: { values: ['red', 'blue'] },
     },
   },
   { dts: true },
