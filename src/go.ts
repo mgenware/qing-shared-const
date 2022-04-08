@@ -39,14 +39,17 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
         stringType = true;
       }
 
-      code += `type ${typeName} ${stringType ? 'string' : 'int'}\n\n`;
+      if (!enumDef.weakBaseType) {
+        code += `type ${typeName} ${stringType ? 'string' : 'int'}\n\n`;
+      }
+      const typeAttr = enumDef.weakBaseType ? '' : ` ${typeName}`;
       code += 'const (\n';
       if (isArray) {
         code += `${values
           .map(
             (v, i) =>
               `\t${typeName}${cm.capitalizeFirstLetter(`${v}`)}${
-                i === 0 ? ` ${typeName} = iota + 1` : ''
+                i === 0 ? `${typeAttr} = iota + 1` : ''
               }`,
           )
           .join('\n')}\n`;
@@ -55,7 +58,7 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
           .map(
             ([k, v], i) =>
               `\t${typeName}${cm.capitalizeFirstLetter(`${k}`)}${
-                i === 0 ? ` ${typeName}` : ''
+                i === 0 ? `${typeAttr}` : ''
               } = ${JSON.stringify(v)}`,
           )
           .join('\n')}\n`;

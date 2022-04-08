@@ -60,6 +60,29 @@ it('Enums', async () => {
   );
 });
 
+it('Enums (weak)', async () => {
+  await t(
+    {
+      str: 'hello world',
+      intProp: 123,
+      doubleProp: 12.3,
+      __enums: {
+        color: { values: ['red', 'blue'] },
+        color2: { values: ['red', 'blue'], weakBaseType: true },
+        color3: {
+          weakBaseType: true,
+          values: {
+            r: 4,
+            b: -2,
+          },
+        },
+      },
+    },
+    { packageName: 'test', typeName: 'Test' },
+    'enumsWeak',
+  );
+});
+
 it('Enums (string)', async () => {
   await t(
     {
@@ -75,5 +98,24 @@ it('Enums (string)', async () => {
     },
     { packageName: 'test', typeName: 'Test' },
     'enumsStr',
+  );
+});
+
+it('Enums (string) (weak)', async () => {
+  await t(
+    {
+      __enums: {
+        color: { values: ['red', 'blue'] },
+        color2: {
+          weakBaseType: true,
+          values: {
+            r: 'red',
+            b: 'blue',
+          },
+        },
+      },
+    },
+    { packageName: 'test', typeName: 'Test' },
+    'enumsStrWeak',
   );
 });
