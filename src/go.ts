@@ -39,10 +39,10 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
         stringType = true;
       }
 
-      if (!enumDef.weakBaseType) {
+      if (!enumDef.weakGoBaseType) {
         code += `type ${typeName} ${stringType ? 'string' : 'int'}\n\n`;
       }
-      const typeAttr = enumDef.weakBaseType ? '' : ` ${typeName}`;
+      const typeAttr = enumDef.weakGoBaseType ? '' : ` ${typeName}`;
       code += 'const (\n';
       if (isArray) {
         code += `${values

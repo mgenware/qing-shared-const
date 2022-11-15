@@ -68,9 +68,9 @@ it('Enums (weak)', async () => {
       doubleProp: 12.3,
       __enums: {
         color: { values: ['red', 'blue'] },
-        color2: { values: ['red', 'blue'], weakBaseType: true },
+        color2: { values: ['red', 'blue'], weakGoBaseType: true },
         color3: {
-          weakBaseType: true,
+          weakGoBaseType: true,
           values: {
             r: 4,
             b: -2,
@@ -107,7 +107,7 @@ it('Enums (string) (weak)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: {
-          weakBaseType: true,
+          weakGoBaseType: true,
           values: {
             r: 'red',
             b: 'blue',
