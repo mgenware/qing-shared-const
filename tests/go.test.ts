@@ -47,12 +47,6 @@ it('Enums', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: { values: ['red', 'blue'] },
-        color3: {
-          values: {
-            r: 4,
-            b: -2,
-          },
-        },
       },
     },
     { packageName: 'test', typeName: 'Test' },
@@ -69,13 +63,6 @@ it('Enums (weak)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: { values: ['red', 'blue'], weakGoBaseType: true },
-        color3: {
-          weakGoBaseType: true,
-          values: {
-            r: 4,
-            b: -2,
-          },
-        },
       },
     },
     { packageName: 'test', typeName: 'Test' },
@@ -89,10 +76,8 @@ it('Enums (string)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: {
-          values: {
-            r: 'red',
-            b: 'blue',
-          },
+          values: ['red', 'blue'],
+          stringType: true,
         },
       },
     },
@@ -108,10 +93,8 @@ it('Enums (string) (weak)', async () => {
         color: { values: ['red', 'blue'] },
         color2: {
           weakGoBaseType: true,
-          values: {
-            r: 'red',
-            b: 'blue',
-          },
+          stringType: true,
+          values: ['red', 'blue'],
         },
       },
     },

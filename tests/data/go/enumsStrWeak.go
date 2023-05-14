@@ -8,6 +8,6 @@ const (
 )
 
 const (
-	Color2R = "red"
-	Color2B = "blue"
+	Color2Red = "red"
+	Color2Blue = "blue"
 )

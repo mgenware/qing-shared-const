@@ -27,16 +27,10 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
   if (enums) {
     for (const [enumName, enumDefRaw] of Object.entries(enums)) {
       const enumDef = enumDefRaw as cm.EnumDef;
-      const { values } = enumDef;
+      const { values, stringType } = enumDef;
       const typeName = cm.capitalizeFirstLetter(enumName);
       if (!endsWithTwoNewlines(code)) {
         code += '\n';
-      }
-
-      const isArray = Array.isArray(values);
-      let stringType = false;
-      if (!isArray && typeof Object.values(values)[0] === 'string') {
-        stringType = true;
       }
 
       if (!enumDef.weakGoBaseType) {
@@ -44,7 +38,7 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
       }
       const typeAttr = enumDef.weakGoBaseType ? '' : ` ${typeName}`;
       code += 'const (\n';
-      if (isArray) {
+      if (!stringType) {
         code += `${values
           .map(
             (v, i) =>
@@ -54,10 +48,10 @@ export function convert(obj: Record<string, unknown>, args: InputArgs) {
           )
           .join('\n')}\n`;
       } else {
-        code += `${Object.entries(values)
+        code += `${values
           .map(
-            ([k, v], i) =>
-              `\t${typeName}${cm.capitalizeFirstLetter(`${k}`)}${
+            (v, i) =>
+              `\t${typeName}${cm.capitalizeFirstLetter(`${v}`)}${
                 i === 0 ? `${typeAttr}` : ''
               } = ${JSON.stringify(v)}`,
           )

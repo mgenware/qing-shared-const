@@ -114,10 +114,8 @@ it('Enums (string)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: {
-          values: {
-            r: 'red',
-            b: 'blue',
-          },
+          values: ['red', 'blue'],
+          stringType: true,
         },
       },
     },
@@ -132,10 +130,8 @@ it('Enums (string) (flat)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: {
-          values: {
-            r: 'red',
-            b: 'blue',
-          },
+          values: ['red', 'blue'],
+          stringType: true,
         },
       },
     },
@@ -150,10 +146,8 @@ it('Enums (dts) (string)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: {
-          values: {
-            r: 'red',
-            b: 'blue',
-          },
+          values: ['red', 'blue'],
+          stringType: true,
         },
       },
     },
@@ -168,10 +162,8 @@ it('Enums (dts) (string) (flat)', async () => {
       __enums: {
         color: { values: ['red', 'blue'] },
         color2: {
-          values: {
-            r: 'red',
-            b: 'blue',
-          },
+          values: ['red', 'blue'],
+          stringType: true,
         },
       },
     },

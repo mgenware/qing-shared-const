@@ -10,6 +10,6 @@ const (
 type Color2 string
 
 const (
-	Color2R Color2 = "red"
-	Color2B = "blue"
+	Color2Red Color2 = "red"
+	Color2Blue = "blue"
 )

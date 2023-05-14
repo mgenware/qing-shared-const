@@ -3,5 +3,5 @@ export declare enum Color {
 }
 
 export declare enum Color2 {
-  r = "red", b = "blue"
+  red = "red", blue = "blue"
 }

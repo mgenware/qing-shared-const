@@ -15,8 +15,3 @@ const (
 	Color2Red = iota + 1
 	Color2Blue
 )
-
-const (
-	Color3R = 4
-	Color3B = -2
-)

@@ -6,6 +6,7 @@ export function capitalizeFirstLetter(s: string) {
 }
 
 export interface EnumDef {
-  values: Record<string, unknown>;
+  values: string[];
   weakGoBaseType?: boolean;
+  stringType?: boolean;
 }

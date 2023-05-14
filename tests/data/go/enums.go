@@ -17,10 +17,3 @@ const (
 	Color2Red Color2 = iota + 1
 	Color2Blue
 )
-
-type Color3 int
-
-const (
-	Color3R Color3 = 4
-	Color3B = -2
-)

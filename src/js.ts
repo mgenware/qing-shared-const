@@ -33,7 +33,7 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
   if (enums) {
     for (const [enumName, enumDefRaw] of Object.entries(enums)) {
       const enumDef = enumDefRaw as cm.EnumDef;
-      const { values } = enumDef;
+      const { values, stringType } = enumDef;
       if (code.length) {
         code += '\n';
       }
@@ -48,7 +48,7 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
         if (!flat) {
           code += `export declare enum ${typeName} {\n`;
         }
-        if (Array.isArray(values)) {
+        if (!stringType) {
           if (flat) {
             code += values
               .map(
@@ -64,18 +64,16 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
         } else {
           // DTS + Object.
           if (flat) {
-            code += Object.entries(values as Record<string, undefined>)
+            code += values
               .map(
-                ([k, v]) =>
+                (v) =>
                   `export declare const ${enumName}${cm.capitalizeFirstLetter(
-                    k,
+                    v,
                   )} = ${JSON.stringify(v)};\n`,
               )
               .join('');
           } else {
-            code += `  ${Object.entries(values as Record<string, undefined>)
-              .map(([k, v]) => `${k} = ${JSON.stringify(v)}`)
-              .join(', ')}\n`;
+            code += `  ${values.map((v) => `${v} = ${JSON.stringify(v)}`).join(', ')}\n`;
           }
         }
         if (!flat) {
@@ -86,7 +84,7 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
           code += `export var ${typeName};\n`;
           code += `(function (${typeName}) {\n`;
         }
-        if (Array.isArray(values)) {
+        if (!stringType) {
           // JS + Array.
           if (flat) {
             values.forEach((v, i) => {
@@ -100,14 +98,14 @@ export function convert(obj: Record<string, unknown>, opt?: Options): string {
         } else {
           // JS + Object.
           if (flat) {
-            Object.entries(values as Record<string, undefined>).forEach(([k, v]) => {
-              code += `export const ${enumName}${cm.capitalizeFirstLetter(k)} = ${JSON.stringify(
+            values.forEach((v) => {
+              code += `export const ${enumName}${cm.capitalizeFirstLetter(v)} = ${JSON.stringify(
                 v,
               )};\n`;
             });
           } else {
-            Object.entries(values as Record<string, undefined>).forEach(([k, v]) => {
-              code += `  ${typeName}["${k}"] = ${JSON.stringify(v)};\n`;
+            values.forEach((v) => {
+              code += `  ${typeName}["${v}"] = ${JSON.stringify(v)};\n`;
             });
           }
         }

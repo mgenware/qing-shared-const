@@ -6,6 +6,6 @@ export var Color;
 
 export var Color2;
 (function (Color2) {
-  Color2["r"] = "red";
-  Color2["b"] = "blue";
+  Color2["red"] = "red";
+  Color2["blue"] = "blue";
 })(Color2 || (Color2 = {}));
